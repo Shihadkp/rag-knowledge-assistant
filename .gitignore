@@ -3,3 +3,22 @@ venv/
 __pycache__/
 .ipynb_checkpoints/
 *.pyc
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Data persistence
+data/index/
+data/uploaded_docs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
