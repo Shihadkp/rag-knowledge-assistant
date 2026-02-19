@@ -1,25 +1,21 @@
 from app.core.index_store import chunks, embeddings
+from app.core.faiss_store import search
 from app.core.embeddings import embed_texts
-from app.core.similarity import cosine_similarity
 
-def retrieve(query: str, top_k: int = 3):
-    if not chunks or not embeddings:
+def retrieve(query, top_k=3):
+
+    if not chunks:
         return []
 
-    query_embedding = embed_texts([query])[0]
+    query_vector = embed_texts([query])[0]
 
-    scores = []
-    for i, emb in enumerate(embeddings):
-        score = cosine_similarity(query_embedding, emb)
-        scores.append((score, i))
-
-    scores.sort(reverse=True)
+    indices = search(query_vector, top_k)
 
     results = []
-    for score, idx in scores[:top_k]:
+
+    for idx in indices:
         results.append({
-            "chunk_id": idx,
-            "score": score,
+            "chunk_id": int(idx),
             "text": chunks[idx]
         })
 
